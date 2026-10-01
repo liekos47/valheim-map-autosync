@@ -1,0 +1,27 @@
+# AutoSyncMap - every game member the code uses. Check with HookCheck --check hooks.txt after a game
+# update, against the client's assembly_valheim.dll and against the dedicated server's.
+Minimap.GetSharedMapData
+Minimap.AddSharedMapData
+ZRoutedRpc.Register
+ZRoutedRpc.InvokeRoutedRPC
+ZRoutedRpc.GetServerPeerID
+ZNet.IsServer
+ZNet.GetPeer
+ZNet.GetWorldName
+SaveSystem.GetWorldsSaveRootPath
+EnvMan.GetDay
+Player.GetPlayerID
+Player.Message
+ZPackage.ReadByteArray
+ZPackage.ReadByte
+MapTable.OnRead
+MapTable.OnWrite
+field:Minimap.m_publicPosition
+field:Minimap.m_explored
+field:Minimap.m_exploredOthers
+field:Minimap.m_pins
+field:Player.m_localPlayer
+field:ZRoutedRpc.m_functions
+field:ZNet.m_world
+field:World.m_fileSource
+field:ZNetPeer.m_playerName

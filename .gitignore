@@ -1,0 +1,15 @@
+# Notes and handovers stay local (no markdown other than README/CHANGELOG, no sensitive details on GitHub).
+HANDOVER.md
+NOTES*.md
+*-notes.md
+
+# Points at a local game install.
+Environment.props
+
+# Build output
+bin/
+obj/
+pkg/
+*.zip
+*.user
+.vs/

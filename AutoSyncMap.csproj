@@ -1,0 +1,67 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net472</TargetFramework>
+    <AssemblyName>AutoSyncMap</AssemblyName>
+    <RootNamespace>AutoSyncMap</RootNamespace>
+    <Version>0.1.0</Version>
+    <LangVersion>latest</LangVersion>
+    <Nullable>disable</Nullable>
+    <Deterministic>true</Deterministic>
+    <!-- Symbols inside the DLL, so it also loads through ScriptEngine (hot reload), which reads them. -->
+    <DebugType>embedded</DebugType>
+    <OutputPath>bin\$(Configuration)\</OutputPath>
+    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+    <GenerateDocumentationFile>false</GenerateDocumentationFile>
+  </PropertyGroup>
+
+  <!-- Points VALHEIM_INSTALL at a Valheim client install with BepInEx (valheim_Data\Managed + BepInEx\core). Not committed. -->
+  <Import Project="Environment.props" Condition="Exists('Environment.props')" />
+
+  <ItemGroup>
+    <Compile Remove="pkg\**" />
+    <None Remove="pkg\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="BepInEx.AssemblyPublicizer.MSBuild" Version="0.4.1" PrivateAssets="all" />
+    <Reference Include="assembly_valheim" Publicize="true">
+      <HintPath>$(VALHEIM_INSTALL)\valheim_Data\Managed\assembly_valheim.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="assembly_utils">
+      <HintPath>$(VALHEIM_INSTALL)\valheim_Data\Managed\assembly_utils.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="UnityEngine">
+      <HintPath>$(VALHEIM_INSTALL)\valheim_Data\Managed\UnityEngine.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="UnityEngine.CoreModule">
+      <HintPath>$(VALHEIM_INSTALL)\valheim_Data\Managed\UnityEngine.CoreModule.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="UnityEngine.UI">
+      <HintPath>$(VALHEIM_INSTALL)\valheim_Data\Managed\UnityEngine.UI.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="0Harmony">
+      <HintPath>$(VALHEIM_INSTALL)\BepInEx\core\0Harmony.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="BepInEx">
+      <HintPath>$(VALHEIM_INSTALL)\BepInEx\core\BepInEx.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+  </ItemGroup>
+
+  <!-- Thunderstore-style package: pkg\ holds manifest, README, CHANGELOG and plugins\AutoSyncMap.dll. -->
+  <Target Name="Package" AfterTargets="Build" Condition="'$(Configuration)' == 'Release'">
+    <MakeDir Directories="$(MSBuildProjectDirectory)\pkg\plugins" />
+    <Copy SourceFiles="$(TargetPath)" DestinationFolder="$(MSBuildProjectDirectory)\pkg\plugins" />
+    <Copy SourceFiles="manifest.json;README.md;CHANGELOG.md" DestinationFolder="$(MSBuildProjectDirectory)\pkg" />
+    <Copy SourceFiles="icon.png" DestinationFolder="$(MSBuildProjectDirectory)\pkg" Condition="Exists('icon.png')" />
+    <ZipDirectory SourceDirectory="$(MSBuildProjectDirectory)\pkg" DestinationFile="$(MSBuildProjectDirectory)\AutoSyncMap-$(Version).zip" Overwrite="true" />
+  </Target>
+
+</Project>
