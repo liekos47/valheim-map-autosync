@@ -67,7 +67,7 @@ it does nothing.
 | `ShowMessage` | `true` | Show a short top-left message after each sync. |
 | `Label` | `Auto sync map` | The text beside the tick-box. |
 | `OffsetX` | `0` | Moves the tick-box sideways. Rejoin to see a change. |
-| `OffsetY` | `0` | Moves the tick-box up or down. 0 puts it one row above "Visible to other players"; a negative number puts it below. |
+| `OffsetY` | `0` | Moves the tick-box up or down. 0 puts it one row above "Visible to other players", or above the game's "Cartography Table" row when that is showing; a negative number moves it down. |
 
 ## What the server stores
 

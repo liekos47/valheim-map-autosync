@@ -31,7 +31,7 @@ namespace AutoSyncMap
 	{
 		public const string Guid = "liekos47.autosyncmap";
 		public const string Name = "AutoSyncMap";
-		public const string Version = "0.1.0";
+		public const string Version = "0.1.1";
 
 		internal static ManualLogSource Log;
 		internal static AutoSyncMapPlugin Instance;
@@ -64,7 +64,7 @@ namespace AutoSyncMap
 			ButtonOffsetX = Config.Bind("Button", "OffsetX", 0f,
 				"Moves the tick-box sideways from the \"Visible to other players\" tick-box, in screen units. Applied when the map screen is created (rejoin to see a change).");
 			ButtonOffsetY = Config.Bind("Button", "OffsetY", 0f,
-				"Moves the tick-box up or down. 0 places it one row above \"Visible to other players\"; use a negative number to put it below.");
+				"Moves the tick-box up or down. 0 places it one row above \"Visible to other players\", or above the game's \"Cartography Table\" row when that is showing; use a negative number to move it down.");
 
 			// Its own Harmony id per load, so an unloading copy (hot reload) cannot remove a new copy's patches.
 			harmony = new Harmony($"{Guid}.{DateTime.Now.Ticks}");

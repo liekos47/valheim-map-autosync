@@ -1,3 +1,11 @@
+## 0.1.1
+
+- Fixed the "Auto sync map" tick-box sitting on top of the game's "Cartography Table" row. That row
+  appears once your map holds shared data, so the tick-box now moves one row further up while it
+  is showing.
+- First run in a real game: the tick-box appears and a sync with the server works.
+- Players only. The server does not need this update.
+
 ## 0.1.0
 
 - First version. "Auto sync map" tick-box on the large map; shares explored areas and pins with
