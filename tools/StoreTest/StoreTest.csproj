@@ -1,0 +1,5 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <!-- Runs the server's merge (src\ServerStore.cs, unchanged) against made-up maps. No game needed. -->
+  <PropertyGroup><OutputType>Exe</OutputType><TargetFramework>net9.0</TargetFramework><ImplicitUsings>enable</ImplicitUsings><Nullable>disable</Nullable></PropertyGroup>
+  <ItemGroup><Compile Include="..\..\src\ServerStore.cs" /></ItemGroup>
+</Project>

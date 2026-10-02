@@ -6,6 +6,9 @@ NOTES*.md
 # Points at a local game install.
 Environment.props
 
+# Mono.Cecil copied from the server's BepInEx, for tools\LoaderCheck. Not ours to publish.
+refs/
+
 # Build output
 bin/
 obj/

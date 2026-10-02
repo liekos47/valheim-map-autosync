@@ -19,8 +19,8 @@
   <Import Project="Environment.props" Condition="Exists('Environment.props')" />
 
   <ItemGroup>
-    <Compile Remove="pkg\**" />
-    <None Remove="pkg\**" />
+    <Compile Remove="pkg\**;tools\**;refs\**" />
+    <None Remove="pkg\**;tools\**;refs\**" />
   </ItemGroup>
 
   <ItemGroup>
