@@ -1,7 +1,7 @@
 {
   "name": "AutoSyncMap",
   "version_number": "0.2.0",
-  "website_url": "",
+  "website_url": "https://github.com/liekos47/valheim-map-autosync",
   "description": "Share explored map and pins with everyone on a dedicated server automatically, without a cartography table. Install on the server and on each player who wants it.",
   "dependencies": [
     "denikson-BepInExPack_Valheim-5.4.2333"
