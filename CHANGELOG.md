@@ -1,3 +1,11 @@
+## 0.2.0
+
+- New "Sync now" button on the large map, one row above "Auto sync map". Click it to sync straight
+  away instead of waiting for the next in-game day. Its box stays ticked while the sync is under
+  way and clears when the server's map has arrived.
+- "Sync now" also works while "Auto sync map" is off, for players who prefer to sync by hand.
+- Players only. The server does not need this update.
+
 ## 0.1.1
 
 - Fixed the "Auto sync map" tick-box sitting on top of the game's "Cartography Table" row. That row

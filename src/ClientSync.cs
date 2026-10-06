@@ -9,7 +9,8 @@ namespace AutoSyncMap
 		A sync is what a visit to a cartography table does, in the table's order turned around so one
 		round trip is enough: write (send Minimap.GetSharedMapData), then read (merge what the server
 		sends back with Minimap.AddSharedMapData). It happens once about 20 seconds after spawning,
-		then each time the in-game day changes, and at once when the tick-box is switched on.
+		then each time the in-game day changes, and at once when the tick-box is switched on or
+		"Sync now" is clicked.
 	*/
 	internal static class ClientSync
 	{
@@ -43,13 +44,11 @@ namespace AutoSyncMap
 			{
 				s_readyAt = Time.time + JoinDelay;
 			}
-			if (!AutoSyncMapPlugin.AutoSync.Value)
-			{
-				s_now = false;
-				return;
-			}
+			// "Sync now" works whether or not the tick-box is on; the timed syncs need it on.
 			int day = EnvMan.instance.GetDay();
-			bool due = s_now || (!s_synced && Time.time >= s_readyAt) || (s_synced && day != s_lastDay);
+			bool timed = AutoSyncMapPlugin.AutoSync.Value
+				&& ((!s_synced && Time.time >= s_readyAt) || (s_synced && day != s_lastDay));
+			bool due = s_now || timed;
 			if (!due)
 			{
 				return;
@@ -82,6 +81,7 @@ namespace AutoSyncMap
 				return;
 			}
 			bool changed = Minimap.instance.AddSharedMapData(Utils.Decompress(data));
+			MapToggle.SyncDone();
 			AutoSyncMapPlugin.Log.LogInfo($"merged the server's map: {data.Length / 1024} KB, {(changed ? "new areas or pins" : "nothing new")}");
 			if (AutoSyncMapPlugin.ShowMessage.Value)
 			{

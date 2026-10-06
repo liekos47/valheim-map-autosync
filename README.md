@@ -4,7 +4,8 @@ Shares every player's explored map and pins on a Valheim dedicated server automa
 anyone visiting a cartography table.
 
 - A new tick-box on the large map, **Auto sync map**, next to "Visible to other players".
-- While it is on, your map is shared when you join and once every in-game day.
+- A **Sync now** button above it, to sync straight away whenever you like.
+- While the tick-box is on, your map is shared when you join and once every in-game day.
 - You receive everyone else's explored areas and pins the same way.
 - It works between players who are never online together: the server keeps the shared map.
 
@@ -42,6 +43,8 @@ data (the game's "shared map" display toggle applies to them).
 - About 20 seconds after you spawn into the world.
 - Each time a new in-game day begins.
 - Straight away when you switch the tick-box on.
+- Straight away when you click **Sync now**. This works even while the tick-box is off. The box
+  beside it stays ticked until the server's map has arrived, usually a second or two.
 
 In-game time on a dedicated server only moves while someone is online, so "once every in-game day"
 is about every 20 minutes of play.
@@ -63,9 +66,10 @@ it does nothing.
 
 | Setting | Default | What it does |
 | --- | --- | --- |
-| `AutoSync` | `true` | The tick-box on the map. Off: nothing is sent or received. |
+| `AutoSync` | `true` | The tick-box on the map. Off: nothing is sent or received unless you click "Sync now". |
 | `ShowMessage` | `true` | Show a short top-left message after each sync. |
 | `Label` | `Auto sync map` | The text beside the tick-box. |
+| `SyncNowLabel` | `Sync now` | The text beside the "Sync now" button. |
 | `OffsetX` | `0` | Moves the tick-box sideways. Rejoin to see a change. |
 | `OffsetY` | `0` | Moves the tick-box up or down. 0 puts it one row above "Visible to other players", or above the game's "Cartography Table" row when that is showing; a negative number moves it down. |
 

@@ -16,7 +16,7 @@ namespace AutoSyncMap
 		One DLL, installed on the dedicated server and on each player who wants it:
 
 		- On a player's game it adds an "Auto sync map" tick-box next to "Visible to other players"
-		  on the large map. While it is on, the game sends its shared map data to the server when the
+		  on the large map, and a "Sync now" button above it. While it is on, the game sends its shared map data to the server when the
 		  player joins and once every in-game day, and merges what comes back. Both steps use the
 		  game's own cartography table code (Minimap.GetSharedMapData / AddSharedMapData), so the
 		  result is what writing to and reading from a table gives.
@@ -31,7 +31,7 @@ namespace AutoSyncMap
 	{
 		public const string Guid = "liekos47.autosyncmap";
 		public const string Name = "AutoSyncMap";
-		public const string Version = "0.1.1";
+		public const string Version = "0.2.0";
 
 		internal static ManualLogSource Log;
 		internal static AutoSyncMapPlugin Instance;
@@ -39,6 +39,7 @@ namespace AutoSyncMap
 		internal static ConfigEntry<bool> AutoSync;
 		internal static ConfigEntry<bool> ShowMessage;
 		internal static ConfigEntry<string> ButtonLabel;
+		internal static ConfigEntry<string> SyncNowLabel;
 		internal static ConfigEntry<float> ButtonOffsetX;
 		internal static ConfigEntry<float> ButtonOffsetY;
 
@@ -56,11 +57,13 @@ namespace AutoSyncMap
 			Instance = this;
 
 			AutoSync = Config.Bind("General", "AutoSync", true,
-				"Share your explored map and pins with the server when you join and once every in-game day. This is the tick-box on the large map.");
+				"Share your explored map and pins with the server when you join and once every in-game day. This is the tick-box on the large map. The \"Sync now\" button above it works either way.");
 			ShowMessage = Config.Bind("General", "ShowMessage", true,
 				"Show a short top-left message when the map has been synced.");
 			ButtonLabel = Config.Bind("Button", "Label", "Auto sync map",
 				"The text beside the tick-box on the large map.");
+			SyncNowLabel = Config.Bind("Button", "SyncNowLabel", "Sync now",
+				"The text beside the button above the tick-box that syncs the map straight away.");
 			ButtonOffsetX = Config.Bind("Button", "OffsetX", 0f,
 				"Moves the tick-box sideways from the \"Visible to other players\" tick-box, in screen units. Applied when the map screen is created (rejoin to see a change).");
 			ButtonOffsetY = Config.Bind("Button", "OffsetY", 0f,
