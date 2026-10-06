@@ -64,7 +64,7 @@ namespace MapAutoSync
 			try
 			{
 				byte[] data = Utils.Compress(Minimap.instance.GetSharedMapData(null));
-				Transfer.Send(ZRoutedRpc.instance.GetServerPeerID(), Transfer.Upload, Player.m_localPlayer.GetPlayerID(), data);
+				Transfer.Send(ZRoutedRpc.instance.GetServerPeerID(), Transfer.Rpc, Transfer.Upload, Player.m_localPlayer.GetPlayerID(), data);
 				MapAutoSyncPlugin.Log.LogInfo($"sent map to the server: {data.Length / 1024} KB");
 			}
 			catch (Exception e)
@@ -81,9 +81,9 @@ namespace MapAutoSync
 				return;
 			}
 			bool changed = Minimap.instance.AddSharedMapData(Utils.Decompress(data));
-			MapToggle.SyncDone();
+			bool asked = MapToggle.SyncDone(changed); // a "Sync now" reports its own outcome
 			MapAutoSyncPlugin.Log.LogInfo($"merged the server's map: {data.Length / 1024} KB, {(changed ? "new areas or pins" : "nothing new")}");
-			if (MapAutoSyncPlugin.ShowMessage.Value)
+			if (!asked && MapAutoSyncPlugin.ShowMessage.Value)
 			{
 				Player.m_localPlayer.Message(MessageHud.MessageType.TopLeft, changed ? "Map synced: new areas or pins" : "Map synced");
 			}

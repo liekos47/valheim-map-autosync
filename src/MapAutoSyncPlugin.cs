@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Concurrent;
+using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
 using BepInEx;
@@ -48,6 +49,8 @@ namespace MapAutoSync
 		private ServerStore store;
 		private string storeWorld;
 		private float nextTick;
+		// Connections already told, this session, that their copy of the mod is out of date.
+		private readonly HashSet<long> reminded = new HashSet<long>();
 		// Work finished on a background thread that must be completed on the main thread.
 		private readonly ConcurrentQueue<Action> mainThread = new ConcurrentQueue<Action>();
 
@@ -59,7 +62,7 @@ namespace MapAutoSync
 			AutoSync = Config.Bind("General", "AutoSync", true,
 				"Share your explored map and pins with the server when you join and once every in-game day. This is the tick-box on the large map. The \"Sync now\" button above it works either way.");
 			ShowMessage = Config.Bind("General", "ShowMessage", true,
-				"Show a short top-left message when the map has been synced.");
+				"Show a short top-left message when the map has been synced automatically. A \"Sync now\" always reports on screen.");
 			ButtonLabel = Config.Bind("Button", "Label", "Auto sync map",
 				"The text beside the tick-box on the large map.");
 			SyncNowLabel = Config.Bind("Button", "SyncNowLabel", "Sync now",
@@ -114,24 +117,29 @@ namespace MapAutoSync
 				return;
 			}
 			ZRoutedRpc.instance.m_functions.Remove(Transfer.Rpc.GetStableHashCode());
-			ZRoutedRpc.instance.Register<ZPackage>(Transfer.Rpc, OnPackage);
+			ZRoutedRpc.instance.m_functions.Remove(Transfer.LegacyRpc.GetStableHashCode());
+			ZRoutedRpc.instance.Register<ZPackage>(Transfer.Rpc, (sender, pkg) => OnPackage(sender, pkg, false));
+			ZRoutedRpc.instance.Register<ZPackage>(Transfer.LegacyRpc, (sender, pkg) => OnPackage(sender, pkg, true));
+			reminded.Clear();
 			registeredFor = ZRoutedRpc.instance;
 		}
 
-		private void OnPackage(long sender, ZPackage pkg)
+		// "legacy": the packet came under the name the mod had before 0.3.0.
+		private void OnPackage(long sender, ZPackage pkg, bool legacy)
 		{
 			try
 			{
-				if (!Transfer.Receive(sender, pkg, out byte kind, out long playerId, out byte[] data))
+				if (!Transfer.Receive(sender, pkg, legacy, out byte kind, out long playerId, out string version, out byte[] data))
 				{
 					return;
 				}
 				bool server = ZNet.instance != null && ZNet.instance.IsServer();
 				if (kind == Transfer.Upload && server)
 				{
-					ServerMerge(sender, playerId, data);
+					ServerMerge(sender, playerId, data, legacy ? Transfer.LegacyRpc : Transfer.Rpc);
+					Remind(sender, version, legacy);
 				}
-				else if (kind == Transfer.Merged && !server)
+				else if (kind == Transfer.Merged && !server && !legacy)
 				{
 					ClientSync.Merged(data);
 				}
@@ -142,12 +150,40 @@ namespace MapAutoSync
 			}
 		}
 
-		private void ServerMerge(long sender, long playerId, byte[] upload)
+		// Server: a player whose copy of the mod is older than the server's still gets synced, and is
+		// told once per connection, in the middle of their screen, to update. The message goes
+		// through the game's own "ShowMessage" RPC, so it needs nothing on the player's side.
+		private void Remind(long sender, string version, bool legacy)
+		{
+			bool outdated = legacy
+				|| (System.Version.TryParse(version, out System.Version theirs) && theirs < new System.Version(Version));
+			if (!outdated || !reminded.Add(sender))
+			{
+				return;
+			}
+			string text = legacy
+				? $"Your map sync mod is out of date. Please replace AutoSyncMap with {Name} {Version} or later."
+				: $"{Name} {version} is out of date. This server runs {Version}, please update.";
+			ZRoutedRpc.instance.InvokeRoutedRPC(sender, "ShowMessage", (int)MessageHud.MessageType.Center, text);
+			string who = ZNet.instance.GetPeer(sender)?.m_playerName ?? sender.ToString();
+			Log.LogInfo($"{who} runs {(legacy ? "a version from before 0.3.0 (AutoSyncMap)" : version)}: reminded to update");
+		}
+
+		private void ServerMerge(long sender, long playerId, byte[] upload, string rpc)
 		{
 			string world = ZNet.instance.GetWorldName();
 			if (store == null || storeWorld != world)
 			{
-				store = new ServerStore(Path.Combine(SaveSystem.GetWorldsSaveRootPath(ZNet.m_world.m_fileSource), world + ".mapautosync.dat"));
+				string folder = SaveSystem.GetWorldsSaveRootPath(ZNet.m_world.m_fileSource);
+				string file = Path.Combine(folder, world + ".mapautosync.dat");
+				// The shared map kept by a version from before 0.3.0 carries over.
+				string before = Path.Combine(folder, world + ".autosyncmap.dat");
+				if (!File.Exists(file) && File.Exists(before))
+				{
+					File.Move(before, file);
+					Log.LogInfo($"took over the shared map from before 0.3.0: {Path.GetFileName(before)} is now {Path.GetFileName(file)}");
+				}
+				store = new ServerStore(file);
 				storeWorld = world;
 			}
 			ServerStore target = store;
@@ -164,7 +200,7 @@ namespace MapAutoSync
 					{
 						if (ZNet.instance != null && ZNet.instance.GetPeer(sender) != null)
 						{
-							Transfer.Send(sender, Transfer.Merged, 0L, merged);
+							Transfer.Send(sender, rpc, Transfer.Merged, 0L, merged);
 						}
 						Log.LogInfo($"synced {who}: {upload.Length / 1024} KB up, {info}, {watch.ElapsedMilliseconds} ms");
 					});

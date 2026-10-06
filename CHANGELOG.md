@@ -3,8 +3,15 @@
 - Renamed from AutoSyncMap to MapAutoSync. The DLL, the settings file
   (`liekos47.mapautosync.cfg`) and the server's shared map file (`<world>.mapautosync.dat`) carry
   the new name.
-- The server and the players must all be on 0.3.0 or later: it does not sync with the earlier
-  versions under the old name.
+- "Sync now" tells you what it is doing: its label and a message in the middle of the screen show
+  "Syncing", then "Sync complete", or that the server did not answer. It also sends straight away
+  instead of up to two seconds later.
+- The tick-box and the button now have the same dark shade behind their labels as the game's own
+  rows.
+- A server on 0.3.0 still syncs players on older versions (AutoSyncMap 0.1.0 to 0.2.0) and tells
+  them on screen to update. It will do the same for versions older than its own in future.
+- A server's shared map from before 0.3.0 is carried over to the new file name by itself.
+- Players on 0.3.0 need the server on 0.3.0: update the server first.
 
 ## 0.2.0
 

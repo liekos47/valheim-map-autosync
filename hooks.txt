@@ -12,6 +12,9 @@ SaveSystem.GetWorldsSaveRootPath
 EnvMan.GetDay
 Player.GetPlayerID
 Player.Message
+MessageHud.RPC_ShowMessage
+field:Minimap.m_largeRoot
+field:Minimap.m_sharedMapHint
 ZPackage.ReadByteArray
 ZPackage.ReadByte
 MapTable.OnRead

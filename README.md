@@ -43,8 +43,10 @@ data (the game's "shared map" display toggle applies to them).
 - About 20 seconds after you spawn into the world.
 - Each time a new in-game day begins.
 - Straight away when you switch the tick-box on.
-- Straight away when you click **Sync now**. This works even while the tick-box is off. The box
-  beside it stays ticked until the server's map has arrived, usually a second or two.
+- Straight away when you click **Sync now**. This works even while the tick-box is off. The
+  button's label and a message in the middle of the screen say "Syncing", then "Sync complete"
+  once the server's map has arrived, usually within a second or two. If the server does not
+  answer within 10 seconds (for example because it does not have the mod), they say so instead.
 
 In-game time on a dedicated server only moves while someone is online, so "once every in-game day"
 is about every 20 minutes of play.
@@ -60,9 +62,20 @@ Requires [BepInEx 5](https://thunderstore.io/c/valheim/p/denikson/BepInExPack_Va
 It is meant for dedicated servers. In single player, or when hosting a game from your own client,
 it does nothing.
 
-The server and every player who uses it should run the same version. From 0.3.0 the mod is called
-MapAutoSync; it does not sync with the earlier versions that were called AutoSyncMap, so remove
-any old `AutoSyncMap.dll` when you update.
+### Versions
+
+Keep the server and the players on the same version where you can. Update the server first:
+
+- A server on 0.3.0 or later still syncs players who are on an older version, including the ones
+  from when the mod was called AutoSyncMap. After their first sync of a session it tells them, in
+  the middle of their screen, to update.
+- A player on 0.3.0 or later needs the server to be on 0.3.0 or later.
+- The mod was called AutoSyncMap before 0.3.0. Remove any old `AutoSyncMap.dll` when you update;
+  never run both. A server's shared map from before 0.3.0 is carried over by itself.
+
+Like any BepInEx mod, a new version is loaded when the game or the server starts. So an update
+means restarting the game for a player, and restarting the server for its owner, unless the
+server uses ScriptEngine as described below.
 
 ### Updating a server without a restart (optional)
 
@@ -85,7 +98,7 @@ This is only worth doing on a server. Players can simply use `BepInEx/plugins/`.
 | Setting | Default | What it does |
 | --- | --- | --- |
 | `AutoSync` | `true` | The tick-box on the map. Off: nothing is sent or received unless you click "Sync now". |
-| `ShowMessage` | `true` | Show a short top-left message after each sync. |
+| `ShowMessage` | `true` | Show a short top-left message after each automatic sync. "Sync now" always reports on screen. |
 | `Label` | `Auto sync map` | The text beside the tick-box. |
 | `SyncNowLabel` | `Sync now` | The text beside the "Sync now" button. |
 | `OffsetX` | `0` | Moves the tick-box sideways. Rejoin to see a change. |
