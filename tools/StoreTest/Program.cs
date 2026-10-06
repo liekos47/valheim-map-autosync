@@ -1,5 +1,5 @@
 using System.IO.Compression;
-using AutoSyncMap;
+using MapAutoSync;
 
 // Stand-in for the game's Utils (gzip), so ServerStore.cs compiles and runs unchanged.
 public static class Utils
@@ -36,7 +36,7 @@ public static class Test
 
     public static int Main()
     {
-        string file = Path.Combine(Path.GetTempPath(), "autosyncmap-test.dat"); File.Delete(file);
+        string file = Path.Combine(Path.GetTempPath(), "mapautosync-test.dat"); File.Delete(file);
         var store = new ServerStore(file);
         var a1 = new Pin(1, "Astrid base", 10, 20, 30, 3, false, "Steam_1"); var a2 = new Pin(1, "Åstrid's mine ⛏", -5, 0, 7.5f, 1, true, "Steam_1");
         var b1 = new Pin(2, "Bjorn portal", 100, 0, -100, 6, false, "Steam_2");

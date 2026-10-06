@@ -1,4 +1,4 @@
-# AutoSyncMap - every game member the code uses. Check with HookCheck --check hooks.txt after a game
+# MapAutoSync - every game member the code uses. Check with HookCheck --check hooks.txt after a game
 # update, against the client's assembly_valheim.dll and against the dedicated server's.
 Minimap.GetSharedMapData
 Minimap.AddSharedMapData

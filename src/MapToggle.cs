@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace AutoSyncMap
+namespace MapAutoSync
 {
 	/*
 		The "Auto sync map" tick-box and the "Sync now" button on the large map.
@@ -38,18 +38,18 @@ namespace AutoSyncMap
 			}
 			Remove();
 
-			s_toggle = Copy("AutoSyncMapToggle", AutoSyncMapPlugin.ButtonLabel.Value);
-			s_toggle.isOn = AutoSyncMapPlugin.AutoSync.Value;
+			s_toggle = Copy("MapAutoSyncToggle", MapAutoSyncPlugin.ButtonLabel.Value);
+			s_toggle.isOn = MapAutoSyncPlugin.AutoSync.Value;
 			s_toggle.onValueChanged.AddListener(on =>
 			{
-				AutoSyncMapPlugin.AutoSync.Value = on; // saved to the config file
+				MapAutoSyncPlugin.AutoSync.Value = on; // saved to the config file
 				if (on)
 				{
 					ClientSync.RequestNow();
 				}
 			});
 
-			s_syncNow = Copy("AutoSyncMapSyncNow", AutoSyncMapPlugin.SyncNowLabel.Value);
+			s_syncNow = Copy("MapAutoSyncSyncNow", MapAutoSyncPlugin.SyncNowLabel.Value);
 			s_syncNow.isOn = false;
 			s_syncNow.onValueChanged.AddListener(on =>
 			{
@@ -60,7 +60,7 @@ namespace AutoSyncMap
 				}
 			});
 			Place();
-			AutoSyncMapPlugin.Log.LogInfo("added the Auto sync map tick-box and the Sync now button to the large map");
+			MapAutoSyncPlugin.Log.LogInfo("added the Auto sync map tick-box and the Sync now button to the large map");
 		}
 
 		// The server's map has been merged: clear the tick on "Sync now".
@@ -106,7 +106,7 @@ namespace AutoSyncMap
 				}
 				rows = 2;
 			}
-			Vector2 offset = new Vector2(AutoSyncMapPlugin.ButtonOffsetX.Value, AutoSyncMapPlugin.ButtonOffsetY.Value);
+			Vector2 offset = new Vector2(MapAutoSyncPlugin.ButtonOffsetX.Value, MapAutoSyncPlugin.ButtonOffsetY.Value);
 			to.anchoredPosition = from.anchoredPosition + offset + new Vector2(0f, row * rows);
 			s_syncNow.GetComponent<RectTransform>().anchoredPosition = from.anchoredPosition + offset + new Vector2(0f, row * (rows + 1));
 		}

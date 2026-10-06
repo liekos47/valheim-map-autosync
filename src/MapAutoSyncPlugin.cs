@@ -8,7 +8,7 @@ using BepInEx.Logging;
 using HarmonyLib;
 using UnityEngine;
 
-namespace AutoSyncMap
+namespace MapAutoSync
 {
 	/*
 		Shares every player's explored map and pins automatically, without a cartography table.
@@ -27,14 +27,14 @@ namespace AutoSyncMap
 		RPC the server simply has no handler for.
 	*/
 	[BepInPlugin(Guid, Name, Version)]
-	public class AutoSyncMapPlugin : BaseUnityPlugin
+	public class MapAutoSyncPlugin : BaseUnityPlugin
 	{
-		public const string Guid = "liekos47.autosyncmap";
-		public const string Name = "AutoSyncMap";
-		public const string Version = "0.2.0";
+		public const string Guid = "liekos47.mapautosync";
+		public const string Name = "MapAutoSync";
+		public const string Version = "0.3.0";
 
 		internal static ManualLogSource Log;
-		internal static AutoSyncMapPlugin Instance;
+		internal static MapAutoSyncPlugin Instance;
 
 		internal static ConfigEntry<bool> AutoSync;
 		internal static ConfigEntry<bool> ShowMessage;
@@ -147,7 +147,7 @@ namespace AutoSyncMap
 			string world = ZNet.instance.GetWorldName();
 			if (store == null || storeWorld != world)
 			{
-				store = new ServerStore(Path.Combine(SaveSystem.GetWorldsSaveRootPath(ZNet.m_world.m_fileSource), world + ".autosyncmap.dat"));
+				store = new ServerStore(Path.Combine(SaveSystem.GetWorldsSaveRootPath(ZNet.m_world.m_fileSource), world + ".mapautosync.dat"));
 				storeWorld = world;
 			}
 			ServerStore target = store;

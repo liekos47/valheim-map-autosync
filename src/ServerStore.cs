@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 
-namespace AutoSyncMap
+namespace MapAutoSync
 {
 	/*
 		The server's one merged map: what a cartography table would hold if every player wrote to it

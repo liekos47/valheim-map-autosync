@@ -2,9 +2,9 @@
 
   <PropertyGroup>
     <TargetFramework>net472</TargetFramework>
-    <AssemblyName>AutoSyncMap</AssemblyName>
-    <RootNamespace>AutoSyncMap</RootNamespace>
-    <Version>0.2.0</Version>
+    <AssemblyName>MapAutoSync</AssemblyName>
+    <RootNamespace>MapAutoSync</RootNamespace>
+    <Version>0.3.0</Version>
     <LangVersion>latest</LangVersion>
     <Nullable>disable</Nullable>
     <Deterministic>true</Deterministic>
@@ -57,13 +57,13 @@
     </Reference>
   </ItemGroup>
 
-  <!-- Thunderstore-style package: pkg\ holds manifest, README, CHANGELOG and plugins\AutoSyncMap.dll. -->
+  <!-- Thunderstore-style package: pkg\ holds manifest, README, CHANGELOG and plugins\MapAutoSync.dll. -->
   <Target Name="Package" AfterTargets="Build" Condition="'$(Configuration)' == 'Release'">
     <MakeDir Directories="$(MSBuildProjectDirectory)\pkg\plugins" />
     <Copy SourceFiles="$(TargetPath)" DestinationFolder="$(MSBuildProjectDirectory)\pkg\plugins" />
     <Copy SourceFiles="manifest.json;README.md;CHANGELOG.md" DestinationFolder="$(MSBuildProjectDirectory)\pkg" />
     <Copy SourceFiles="icon.png" DestinationFolder="$(MSBuildProjectDirectory)\pkg" Condition="Exists('icon.png')" />
-    <ZipDirectory SourceDirectory="$(MSBuildProjectDirectory)\pkg" DestinationFile="$(MSBuildProjectDirectory)\AutoSyncMap-$(Version).zip" Overwrite="true" />
+    <ZipDirectory SourceDirectory="$(MSBuildProjectDirectory)\pkg" DestinationFile="$(MSBuildProjectDirectory)\MapAutoSync-$(Version).zip" Overwrite="true" />
   </Target>
 
 </Project>

@@ -1,4 +1,4 @@
-# AutoSyncMap
+# MapAutoSync
 
 Shares every player's explored map and pins on a Valheim dedicated server automatically, without
 anyone visiting a cartography table.
@@ -53,8 +53,8 @@ is about every 20 minutes of play.
 
 Requires [BepInEx 5](https://thunderstore.io/c/valheim/p/denikson/BepInExPack_Valheim/).
 
-- **Server:** put `AutoSyncMap.dll` in `BepInEx/plugins/` and restart.
-- **Player:** put `AutoSyncMap.dll` in `BepInEx/plugins/` in your Valheim folder, or install it with
+- **Server:** put `MapAutoSync.dll` in `BepInEx/plugins/` and restart.
+- **Player:** put `MapAutoSync.dll` in `BepInEx/plugins/` in your Valheim folder, or install it with
   a mod manager.
 
 It is meant for dedicated servers. In single player, or when hosting a game from your own client,
@@ -62,7 +62,7 @@ it does nothing.
 
 ## Settings
 
-`BepInEx/config/liekos47.autosyncmap.cfg`, written on first run. These are per player.
+`BepInEx/config/liekos47.mapautosync.cfg`, written on first run. These are per player.
 
 | Setting | Default | What it does |
 | --- | --- | --- |
@@ -75,7 +75,7 @@ it does nothing.
 
 ## What the server stores
 
-One file beside the world save: `worlds_local/<world>.autosyncmap.dat`, the shared map in the
+One file beside the world save: `worlds_local/<world>.mapautosync.dat`, the shared map in the
 game's own format, compressed. Keep it with the world when you back it up or move it. Deleting it
 resets the shared map; players' own maps are not affected, and it fills up again as they sync.
 

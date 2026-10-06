@@ -3,19 +3,19 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-namespace AutoSyncMap
+namespace MapAutoSync
 {
 	/*
 		Sends one block of bytes between a client and the server as a series of routed RPCs.
 
 		A shared map is a few hundred kilobytes compressed, and one network message has a size limit,
 		so the block goes out in chunks and is put back together on the other side. Every chunk is one
-		"AutoSyncMap" routed RPC carrying: kind, transfer id, chunk index, chunk count, the sender's
+		"MapAutoSync" routed RPC carrying: kind, transfer id, chunk index, chunk count, the sender's
 		player id, and the bytes.
 	*/
 	internal static class Transfer
 	{
-		internal const string Rpc = "AutoSyncMap";
+		internal const string Rpc = "MapAutoSync";
 		internal const byte Upload = 1; // client -> server: my explored map and pins
 		internal const byte Merged = 2; // server -> client: everyone's, merged
 		private const int ChunkSize = 64 * 1024;

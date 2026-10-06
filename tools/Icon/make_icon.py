@@ -1,4 +1,4 @@
-"""Draws the AutoSyncMap icon, 256x256 PNG: a round Valheim-style world that looks drawn with
+"""Draws the MapAutoSync icon, 256x256 PNG: a round Valheim-style world that looks drawn with
 colour pens, and the word SYNC inside a refresh symbol.
 
     python make_icon.py <out.png> [world seed] [font file for the word]

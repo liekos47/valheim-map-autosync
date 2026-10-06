@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-namespace AutoSyncMap
+namespace MapAutoSync
 {
 	/*
 		The player's side: when to sync, and the two halves of a sync.
@@ -46,7 +46,7 @@ namespace AutoSyncMap
 			}
 			// "Sync now" works whether or not the tick-box is on; the timed syncs need it on.
 			int day = EnvMan.instance.GetDay();
-			bool timed = AutoSyncMapPlugin.AutoSync.Value
+			bool timed = MapAutoSyncPlugin.AutoSync.Value
 				&& ((!s_synced && Time.time >= s_readyAt) || (s_synced && day != s_lastDay));
 			bool due = s_now || timed;
 			if (!due)
@@ -65,11 +65,11 @@ namespace AutoSyncMap
 			{
 				byte[] data = Utils.Compress(Minimap.instance.GetSharedMapData(null));
 				Transfer.Send(ZRoutedRpc.instance.GetServerPeerID(), Transfer.Upload, Player.m_localPlayer.GetPlayerID(), data);
-				AutoSyncMapPlugin.Log.LogInfo($"sent map to the server: {data.Length / 1024} KB");
+				MapAutoSyncPlugin.Log.LogInfo($"sent map to the server: {data.Length / 1024} KB");
 			}
 			catch (Exception e)
 			{
-				AutoSyncMapPlugin.Log.LogError($"map upload failed: {e}");
+				MapAutoSyncPlugin.Log.LogError($"map upload failed: {e}");
 			}
 		}
 
@@ -82,8 +82,8 @@ namespace AutoSyncMap
 			}
 			bool changed = Minimap.instance.AddSharedMapData(Utils.Decompress(data));
 			MapToggle.SyncDone();
-			AutoSyncMapPlugin.Log.LogInfo($"merged the server's map: {data.Length / 1024} KB, {(changed ? "new areas or pins" : "nothing new")}");
-			if (AutoSyncMapPlugin.ShowMessage.Value)
+			MapAutoSyncPlugin.Log.LogInfo($"merged the server's map: {data.Length / 1024} KB, {(changed ? "new areas or pins" : "nothing new")}");
+			if (MapAutoSyncPlugin.ShowMessage.Value)
 			{
 				Player.m_localPlayer.Message(MessageHud.MessageType.TopLeft, changed ? "Map synced: new areas or pins" : "Map synced");
 			}
