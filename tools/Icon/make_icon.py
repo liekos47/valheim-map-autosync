@@ -87,26 +87,25 @@ rim = S * 0.022
 d.ellipse([cx - R - rim, cy - R - rim, cx + R + rim, cy + R + rim], fill=(24, 30, 44, 255))
 canvas.alpha_composite(world)
 
-# Bottom right: the word SYNC between the two halves of a refresh symbol, white with a dark
-# outline and no backing disc.
-bx, by = S * 0.745, S * 0.755
-ar = S * 0.118           # radius of each arrow arc
-aw = int(S * 0.043)      # stroke width
-gap = S * 0.082          # each half is moved this far from the middle, making room for the word
+# Bottom right: the word SYNC inside a refresh symbol, white with a dark outline and no backing
+# disc. The two arrows leave gaps at the left and right, where the word comes closest to them.
+bx = by = S * 0.742
+ar = S * 0.242           # outer radius of the arrow circle
+aw = int(S * 0.040)      # stroke width
 mask = Image.new("L", (S, S), 0)
 d = ImageDraw.Draw(mask)
-for start, cy in ((200, by - gap), (20, by + gap)):  # PIL angles run clockwise from 3 o'clock
-    end = start + 108
-    d.arc([bx - ar, cy - ar, bx + ar, cy + ar], start, end, fill=255, width=aw)
+for start in (205, 25):  # PIL angles run clockwise from 3 o'clock
+    end = start + 118
+    d.arc([bx - ar, by - ar, bx + ar, by + ar], start, end, fill=255, width=aw)
     a = math.radians(start)
     mid = ar - aw / 2                                   # centre line of the stroke
-    d.ellipse([bx + mid * math.cos(a) - aw / 2, cy + mid * math.sin(a) - aw / 2,
-               bx + mid * math.cos(a) + aw / 2, cy + mid * math.sin(a) + aw / 2], fill=255)
+    d.ellipse([bx + mid * math.cos(a) - aw / 2, by + mid * math.sin(a) - aw / 2,
+               bx + mid * math.cos(a) + aw / 2, by + mid * math.sin(a) + aw / 2], fill=255)
     e = math.radians(end)
-    px, py = bx + mid * math.cos(e), cy + mid * math.sin(e)
+    px, py = bx + mid * math.cos(e), by + mid * math.sin(e)
     tx, ty = -math.sin(e), math.cos(e)                  # direction of travel (clockwise)
     nx, ny = math.cos(e), math.sin(e)                   # outwards
-    h, w = aw * 1.7, aw * 1.4
+    h, w = aw * 1.9, aw * 1.5
     d.polygon([(px + tx * h, py + ty * h), (px + nx * w, py + ny * w), (px - nx * w, py - ny * w)], fill=255)
 
 font = None
