@@ -60,6 +60,24 @@ Requires [BepInEx 5](https://thunderstore.io/c/valheim/p/denikson/BepInExPack_Va
 It is meant for dedicated servers. In single player, or when hosting a game from your own client,
 it does nothing.
 
+The server and every player who uses it should run the same version. From 0.3.0 the mod is called
+MapAutoSync; it does not sync with the earlier versions that were called AutoSyncMap, so remove
+any old `AutoSyncMap.dll` when you update.
+
+### Updating a server without a restart (optional)
+
+MapAutoSync has no hot reloading of its own. It is written so that BepInEx's own
+[ScriptEngine](https://github.com/BepInEx/BepInEx.Debug#scriptengine) can reload it:
+
+1. Install ScriptEngine in `BepInEx/plugins/`.
+2. Put `MapAutoSync.dll` in `BepInEx/scripts/` instead of `BepInEx/plugins/`. Never keep a copy in
+   both folders.
+3. To update, replace the DLL in `BepInEx/scripts/`. With ScriptEngine's file watcher switched on
+   (`EnableFileSystemWatcher = true` in its settings) it reloads by itself a few seconds later;
+   otherwise press ScriptEngine's reload key. Nobody is disconnected, and the shared map is kept.
+
+This is only worth doing on a server. Players can simply use `BepInEx/plugins/`.
+
 ## Settings
 
 `BepInEx/config/liekos47.mapautosync.cfg`, written on first run. These are per player.
