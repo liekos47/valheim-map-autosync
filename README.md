@@ -9,6 +9,19 @@ anyone visiting a cartography table.
 - You receive everyone else's explored areas and pins the same way.
 - It works between players who are never online together: the server keeps the shared map.
 
+## Screenshots
+
+The two new rows on the large map, above the game's own "Cartography Table" and "Visible to other
+players":
+
+![Sync now and Auto sync map on the large map](https://raw.githubusercontent.com/liekos47/valheim-map-autosync/main/screenshots/0.3.0/map-options-0.3.png)
+
+Clicking **Sync now** tells you what is happening, in large text at the top of the map:
+
+![Syncing map](https://raw.githubusercontent.com/liekos47/valheim-map-autosync/main/screenshots/0.3.0/syncing-map-0.3.png)
+
+![Sync complete](https://raw.githubusercontent.com/liekos47/valheim-map-autosync/main/screenshots/0.3.0/sync-complete-0.3.png)
+
 ## Who installs it
 
 | Where | What it does there |
