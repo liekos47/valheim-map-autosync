@@ -3,6 +3,8 @@
 Shares every player's explored map and pins on a Valheim dedicated server automatically, without
 anyone visiting a cartography table.
 
+**Download:** [MapAutoSync on Thunderstore](https://thunderstore.io/c/valheim/p/liekos47/MapAutoSync/).
+
 - A new tick-box on the large map, **Auto sync map**, next to "Visible to other players".
 - A **Sync now** button above it, to sync straight away whenever you like.
 - While the tick-box is on, your map is shared when you join and once every in-game day.
@@ -69,11 +71,12 @@ is about every 20 minutes of play.
 
 ## Installation
 
-Requires [BepInEx 5](https://thunderstore.io/c/valheim/p/denikson/BepInExPack_Valheim/).
+Get it from [Thunderstore](https://thunderstore.io/c/valheim/p/liekos47/MapAutoSync/). Requires
+[BepInEx 5](https://thunderstore.io/c/valheim/p/denikson/BepInExPack_Valheim/).
 
 - **Server:** put `MapAutoSync.dll` in `BepInEx/plugins/` and restart.
 - **Player:** put `MapAutoSync.dll` in `BepInEx/plugins/` in your Valheim folder, or install it with
-  a mod manager.
+  a mod manager such as r2modman, which finds it on Thunderstore by name.
 
 It is meant for dedicated servers. In single player, or when hosting a game from your own client,
 it does nothing.
