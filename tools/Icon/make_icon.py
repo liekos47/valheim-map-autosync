@@ -87,29 +87,29 @@ rim = S * 0.022
 d.ellipse([cx - R - rim, cy - R - rim, cx + R + rim, cy + R + rim], fill=(24, 30, 44, 255))
 canvas.alpha_composite(world)
 
-# Refresh badge, bottom right.
+# Refresh arrows, bottom right: white with a dark outline, no backing disc.
 bx = by = S * 0.765
 br = S * 0.215
-d.ellipse([bx - br - S * 0.02, by - br - S * 0.02, bx + br + S * 0.02, by + br + S * 0.02], fill=(24, 30, 44, 255))
-d.ellipse([bx - br, by - br, bx + br, by + br], fill=(232, 150, 46, 255))
-d.ellipse([bx - br * 0.90, by - br * 0.90, bx + br * 0.90, by + br * 0.90], fill=(244, 172, 60, 255))
-
-ar = br * 0.52           # radius of the arrow circle
-aw = int(br * 0.17)      # stroke width
-white = (255, 255, 255, 255)
+ar = br * 0.62           # radius of the arrow circle
+aw = int(br * 0.22)      # stroke width
+mask = Image.new("L", (S, S), 0)
+d = ImageDraw.Draw(mask)
 for start in (200, 20):  # two arcs, each ending in an arrowhead (PIL angles run clockwise)
     end = start + 118
-    d.arc([bx - ar, by - ar, bx + ar, by + ar], start, end, fill=white, width=aw)
+    d.arc([bx - ar, by - ar, bx + ar, by + ar], start, end, fill=255, width=aw)
     a = math.radians(start)
     d.ellipse([bx + (ar - aw / 2) * math.cos(a) - aw / 2, by + (ar - aw / 2) * math.sin(a) - aw / 2,
-               bx + (ar - aw / 2) * math.cos(a) + aw / 2, by + (ar - aw / 2) * math.sin(a) + aw / 2], fill=white)
+               bx + (ar - aw / 2) * math.cos(a) + aw / 2, by + (ar - aw / 2) * math.sin(a) + aw / 2], fill=255)
     e = math.radians(end)
     mid = ar - aw / 2                                   # centre line of the stroke
     px, py = bx + mid * math.cos(e), by + mid * math.sin(e)
     tx, ty = -math.sin(e), math.cos(e)                  # direction of travel (clockwise)
     nx, ny = math.cos(e), math.sin(e)                   # outwards
     h, w = aw * 1.9, aw * 1.45
-    d.polygon([(px + tx * h, py + ty * h), (px + nx * w, py + ny * w), (px - nx * w, py - ny * w)], fill=white)
+    d.polygon([(px + tx * h, py + ty * h), (px + nx * w, py + ny * w), (px - nx * w, py - ny * w)], fill=255)
+outline = mask.filter(ImageFilter.MaxFilter(2 * int(S * 0.016) + 1)).filter(ImageFilter.GaussianBlur(1.5))
+canvas.alpha_composite(Image.merge("RGBA", [Image.new("L", (S, S), v) for v in (16, 18, 24)] + [outline]))
+canvas.alpha_composite(Image.merge("RGBA", [Image.new("L", (S, S), 255)] * 3 + [mask]))
 
 canvas.resize((256, 256), Image.LANCZOS).save(OUT)
 print("wrote", OUT)
