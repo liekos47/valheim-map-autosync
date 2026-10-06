@@ -3,9 +3,11 @@
 - Renamed from AutoSyncMap to MapAutoSync. The DLL, the settings file
   (`liekos47.mapautosync.cfg`) and the server's shared map file (`<world>.mapautosync.dat`) carry
   the new name.
-- "Sync now" tells you what it is doing: its label and a message in the middle of the screen show
+- "Sync now" tells you what it is doing: its label and large text at the top of the map show
   "Syncing", then "Sync complete", or that the server did not answer. It also sends straight away
   instead of up to two seconds later.
+- "Map synced" after an automatic sync is shown in the same large text on the map while the map is
+  open, instead of the small top-left message that was easy to miss beside the map.
 - The tick-box and the button now have the same dark shade behind their labels as the game's own
   rows.
 - A server on 0.3.0 still syncs players on older versions (AutoSyncMap 0.1.0 to 0.2.0) and tells

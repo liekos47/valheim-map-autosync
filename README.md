@@ -44,9 +44,12 @@ data (the game's "shared map" display toggle applies to them).
 - Each time a new in-game day begins.
 - Straight away when you switch the tick-box on.
 - Straight away when you click **Sync now**. This works even while the tick-box is off. The
-  button's label and a message in the middle of the screen say "Syncing", then "Sync complete"
-  once the server's map has arrived, usually within a second or two. If the server does not
-  answer within 10 seconds (for example because it does not have the mod), they say so instead.
+  button's label and large text at the top of the map say "Syncing", then "Sync complete" once the
+  server's map has arrived, usually within a second or two. If the server does not answer within
+  10 seconds (for example because it does not have the mod), they say so instead.
+
+After an automatic sync you are told "Map synced": in the same large text on the map if the map
+is open, otherwise as a short message at the top left.
 
 In-game time on a dedicated server only moves while someone is online, so "once every in-game day"
 is about every 20 minutes of play.
@@ -98,9 +101,11 @@ This is only worth doing on a server. Players can simply use `BepInEx/plugins/`.
 | Setting | Default | What it does |
 | --- | --- | --- |
 | `AutoSync` | `true` | The tick-box on the map. Off: nothing is sent or received unless you click "Sync now". |
-| `ShowMessage` | `true` | Show a short top-left message after each automatic sync. "Sync now" always reports on screen. |
+| `ShowMessage` | `true` | Tell you after each automatic sync. "Sync now" always reports on screen. |
 | `Label` | `Auto sync map` | The text beside the tick-box. |
 | `SyncNowLabel` | `Sync now` | The text beside the "Sync now" button. |
+| `Size` | `36` | Text size of the message on the large map. Rejoin to see a change. |
+| `OffsetFromTop` | `90` | How far below the top of the screen that message sits. Rejoin to see a change. |
 | `OffsetX` | `0` | Moves the tick-box sideways. Rejoin to see a change. |
 | `OffsetY` | `0` | Moves the tick-box up or down. 0 puts it one row above "Visible to other players", or above the game's "Cartography Table" row when that is showing; a negative number moves it down. |
 

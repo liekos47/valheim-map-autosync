@@ -15,8 +15,8 @@ namespace MapAutoSync
 
 		"Sync now" is a tick-box used as a button: a click asks for a sync, and the tick shows while
 		it is under way, clearing when the server's map has been merged. The player is told what is
-		happening twice over: in the button's own label ("Syncing...", then "Sync complete"), which
-		is always in view on the map, and as a message in the middle of the screen.
+		happening twice over: in the button's own label ("Syncing...", then "Sync complete"), and
+		in large text on the map (MapBanner).
 	*/
 	internal static class MapToggle
 	{
@@ -117,12 +117,10 @@ namespace MapAutoSync
 			Say(message);
 		}
 
+		// On the map if it is open (it is, when the button was clicked), else mid-screen.
 		private static void Say(string message)
 		{
-			if (Player.m_localPlayer != null)
-			{
-				Player.m_localPlayer.Message(MessageHud.MessageType.Center, message);
-			}
+			MapBanner.Show(message, MessageHud.MessageType.Center);
 		}
 
 		// The whole "Visible to other players" row: the tick-box and, around it, the panel with the
@@ -245,6 +243,7 @@ namespace MapAutoSync
 			{
 				Object.Destroy(s_syncNowRow.gameObject);
 			}
+			MapBanner.Remove();
 			s_toggle = null;
 			s_syncNow = null;
 			s_toggleRow = null;

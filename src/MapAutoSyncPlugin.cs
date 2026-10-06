@@ -43,6 +43,8 @@ namespace MapAutoSync
 		internal static ConfigEntry<string> SyncNowLabel;
 		internal static ConfigEntry<float> ButtonOffsetX;
 		internal static ConfigEntry<float> ButtonOffsetY;
+		internal static ConfigEntry<float> BannerSize;
+		internal static ConfigEntry<float> BannerOffset;
 
 		private Harmony harmony;
 		private ZRoutedRpc registeredFor;
@@ -62,7 +64,7 @@ namespace MapAutoSync
 			AutoSync = Config.Bind("General", "AutoSync", true,
 				"Share your explored map and pins with the server when you join and once every in-game day. This is the tick-box on the large map. The \"Sync now\" button above it works either way.");
 			ShowMessage = Config.Bind("General", "ShowMessage", true,
-				"Show a short top-left message when the map has been synced automatically. A \"Sync now\" always reports on screen.");
+				"Tell you when the map has been synced automatically: in large text on the map if it is open, otherwise as a short top-left message. A \"Sync now\" always reports on screen.");
 			ButtonLabel = Config.Bind("Button", "Label", "Auto sync map",
 				"The text beside the tick-box on the large map.");
 			SyncNowLabel = Config.Bind("Button", "SyncNowLabel", "Sync now",
@@ -71,6 +73,11 @@ namespace MapAutoSync
 				"Moves the tick-box sideways from the \"Visible to other players\" tick-box, in screen units. Applied when the map screen is created (rejoin to see a change).");
 			ButtonOffsetY = Config.Bind("Button", "OffsetY", 0f,
 				"Moves the tick-box up or down. 0 places it one row above \"Visible to other players\", or above the game's \"Cartography Table\" row when that is showing; use a negative number to move it down.");
+
+			BannerSize = Config.Bind("Message", "Size", 36f,
+				"Text size of the message shown on the large map (\"Syncing map...\", \"Map synced\"). Rejoin to see a change.");
+			BannerOffset = Config.Bind("Message", "OffsetFromTop", 90f,
+				"How far below the top of the screen that message sits, in screen units. Rejoin to see a change.");
 
 			// Its own Harmony id per load, so an unloading copy (hot reload) cannot remove a new copy's patches.
 			harmony = new Harmony($"{Guid}.{DateTime.Now.Ticks}");
@@ -84,6 +91,7 @@ namespace MapAutoSync
 			{
 				try { action(); } catch (Exception e) { Log.LogError($"{e}"); }
 			}
+			MapBanner.Frame();
 			if (Time.time < nextTick)
 			{
 				return;

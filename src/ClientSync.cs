@@ -85,7 +85,8 @@ namespace MapAutoSync
 			MapAutoSyncPlugin.Log.LogInfo($"merged the server's map: {data.Length / 1024} KB, {(changed ? "new areas or pins" : "nothing new")}");
 			if (!asked && MapAutoSyncPlugin.ShowMessage.Value)
 			{
-				Player.m_localPlayer.Message(MessageHud.MessageType.TopLeft, changed ? "Map synced: new areas or pins" : "Map synced");
+				// Large on the map if the map is open, else the game's small top-left notice.
+				MapBanner.Show(changed ? "Map synced: new areas or pins" : "Map synced", MessageHud.MessageType.TopLeft);
 			}
 		}
 	}
